@@ -7,7 +7,15 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-  },
+     extend: {
+       margin: {
+         tomato: "120px",
+       },
+       borderRadius: {
+         "round-name": "11.11px",
+       },
+     },
+   },
   plugins: [],
 };
 export default config;
