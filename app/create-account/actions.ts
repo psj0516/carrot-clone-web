@@ -38,14 +38,17 @@ const formSchema = z
   });
 
 export async function createAccount(prevState: any, formData: FormData) {
+  // 유효성 검사
   const data = {
     username: formData.get("username"),
     email: formData.get("email"),
     password: formData.get("password"),
     confirm_password: formData.get("confirm_password"),
   };
+  // parse는 에러를 throw함 (try-catch 필수) safeParse는 result로 에러를 보여줌
   const result = formSchema.safeParse(data);
   if (!result.success) {
+    // 에러를 단순하게 보여주도록 flatten 사용
     return result.error.flatten();
   } else {
     console.log(result.data);
