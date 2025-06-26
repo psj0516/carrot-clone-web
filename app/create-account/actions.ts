@@ -15,9 +15,9 @@ const formSchema = z
         invalid_type_error: "Username must be a string!",
         required_error: "Where is my username???",
       })
-      .trim()
-      .toLowerCase()
-      .transform((username) => `🔥 ${username}`)
+      .trim() // 데이터 변환: 공백 제거
+      .toLowerCase() // 데이터 변환: 소문자로 변환
+      .transform((username) => `🔥 ${username}`) // 특정 항목을 변환하여 return 해야 함
       .refine(
         // false return시 문제가 있다는 뜻
         // 특정 단어 제외
@@ -28,7 +28,7 @@ const formSchema = z
     password: z
       .string()
       .min(PASSWORD_MIN_LENGTH)
-      .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
+      .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR), // 정규표현식
     confirm_password: z.string().min(PASSWORD_MIN_LENGTH),
   })
   .superRefine(({ password, confirm_password }, ctx) => {
