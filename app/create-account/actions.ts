@@ -6,6 +6,8 @@ import {
 } from "@/lib/constants";
 import { z } from "zod";
 
+// 에러 메시지를 커스터마이즈 할 수 있다.
+// 길이에 따른 메시지도 가능
 const formSchema = z
   .object({
     username: z
@@ -17,6 +19,8 @@ const formSchema = z
       .toLowerCase()
       .transform((username) => `🔥 ${username}`)
       .refine(
+        // false return시 문제가 있다는 뜻
+        // 특정 단어 제외
         (username) => !username.includes("potato"),
         "No potatoes allowed!"
       ),
@@ -28,10 +32,12 @@ const formSchema = z
     confirm_password: z.string().min(PASSWORD_MIN_LENGTH),
   })
   .superRefine(({ password, confirm_password }, ctx) => {
+    // zod object 중 password, confirm_password를 가져와서 확인
     if (password !== confirm_password) {
       ctx.addIssue({
         code: "custom",
         message: "Two passwords should be equal",
+        // 에러의 주인을 알려준다
         path: ["confirm_password"],
       });
     }
