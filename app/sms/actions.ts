@@ -12,6 +12,7 @@ const phoneSchema = z
     "Wrong phone format"
   );
 
+// string값을 받아 number로 convert하기 위해 coerce 사용
 const tokenSchema = z.coerce.number().min(100000).max(999999);
 
 interface ActionState {
