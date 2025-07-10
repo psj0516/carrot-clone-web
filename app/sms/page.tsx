@@ -7,7 +7,7 @@ import { smsLogIn } from "./actions";
 
 const initialState = {
   token: false,
-  error: undefined,
+  error: undefined, // 타입스크립트에게 어딘가에 error object가 있을 것이라고 알려준다
 };
 
 export default function SMSLogin() {

@@ -8,7 +8,7 @@ const phoneSchema = z
   .string()
   .trim()
   .refine(
-    (phone) => validator.isMobilePhone(phone, "ko-KR"),
+    (phone) => validator.isMobilePhone(phone, "ko-KR"), // 한국 전화번호만 받기
     "Wrong phone format"
   );
 
@@ -19,11 +19,14 @@ interface ActionState {
   token: boolean;
 }
 
+// prevState로 interactive form 만들기
 export async function smsLogIn(prevState: ActionState, formData: FormData) {
   const phone = formData.get("phone");
   const token = formData.get("token");
-  if (!prevState.token) {
+  if (!prevState.token) { // action을 처음 호출했을 때
     const result = phoneSchema.safeParse(phone);
+
+    // phone validation 성공/실패에 따라 분기처리
     if (!result.success) {
       return {
         token: false,
@@ -41,7 +44,7 @@ export async function smsLogIn(prevState: ActionState, formData: FormData) {
         token: true,
         error: result.error.flatten(),
       };
-    } else {
+    } else { // 메인 화면으로 보내기
       redirect("/");
     }
   }
